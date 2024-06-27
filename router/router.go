@@ -32,3 +32,13 @@ func ValidatorRouter() *gin.Engine {
 
 	return r
 }
+
+func BlockChainNodeRouter() *gin.Engine {
+	r := gin.Default()
+	r.GET("/ping", api.Pong)
+
+	//	部署智能合约
+	r.GET("/deploycontract", api.DeployContract)
+
+	return r
+}

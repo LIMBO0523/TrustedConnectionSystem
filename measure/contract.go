@@ -203,3 +203,16 @@ func (ivc *IntergrityVerifyContract) WatchVerifyAndStoreHashes() {
 
 	<-channel
 }
+
+func (ivc *IntergrityVerifyContract) DeployIntegrityVerify() bool {
+	address, _, instance, err := contract.DeployIntegrityVerify(ivc.Client.GetTransactOpts(), ivc.Client)
+	if err != nil {
+		log.Println("部署合约失败!")
+		return false
+	}
+	session := &contract.IntegrityVerifySession{Contract: instance, CallOpts: *ivc.Client.GetCallOpts(), TransactOpts: *ivc.Client.GetTransactOpts()}
+	ivc.Session = session
+	ivc.ContractAddress = address
+	log.Println("部署合约成功！")
+	return true
+}

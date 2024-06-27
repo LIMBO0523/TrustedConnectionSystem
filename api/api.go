@@ -234,3 +234,19 @@ func VerifyResult(c *gin.Context) {
 		"result":  isAddressTrue,
 	})
 }
+
+func DeployContract(c *gin.Context) {
+	ivc := measure.GetIntergrityVerify()
+	success := ivc.DeployIntegrityVerify()
+
+	if !success {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "部署失败",
+			"result":  false,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "部署成功",
+		"result":  true,
+	})
+}

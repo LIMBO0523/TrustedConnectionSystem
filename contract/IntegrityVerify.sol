@@ -10,10 +10,10 @@ contract IntegrityVerify {
     mapping(address => bool) public addressToBoolMap;
 
     // 定义一个事件，用于保存hash数组，交易发起者的公钥，以及它们的哈希值
-    event HashArrayStored(bytes32[] hashArray, bytes senderPublicKey, bytes32[] values, address sender);
+    event HashArrayStored(bytes32[] sigArray, bytes senderPublicKey, bytes32[] hashArray, address sender);
     // 定义事件，用于通知监听的程序
     event measureFinished();
-    
+
 
     // 设置字符串和对应的hash值
     function setHash(string memory key, bytes32 value) public {
@@ -23,7 +23,7 @@ contract IntegrityVerify {
     // 设置字符串和对应的hash值（多组一起设置）
     function setMultipleHashes(string[] memory keys, bytes32[] memory values) public {
         require(keys.length == values.length, "Number of keys must match number of values");
-        
+
         for (uint i = 0; i < keys.length; i++) {
             fileToHashMap[keys[i]] = values[i];
         }
@@ -54,8 +54,9 @@ contract IntegrityVerify {
     function verifyAndStoreHashes(string[] memory keys, bytes32[] memory values, bytes32[] memory hashArrayToStore) public returns (bool) {
         require(keys.length == values.length, "Keys and values array length must match");
 
-        
+
         delete addressToBoolMap[msg.sender];
+        addressToBoolMap[msg.sender] = true;
 
         for (uint i = 0; i < keys.length; i++) {
             if (fileToHashMap[keys[i]] != values[i]) {
@@ -80,7 +81,7 @@ contract IntegrityVerify {
 
     // 检查address是否存在于mapping中且bool值是否为true
     function isAddressTrue(address addr) public view returns (bool) {
-        
+
         return addressToBoolMap[addr];
     }
 }
