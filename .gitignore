@@ -1,3 +1,4 @@
-.crt
 go.sum
-.key
+conf/.crt
+conf/sdk.key
+myKeys

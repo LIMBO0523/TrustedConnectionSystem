@@ -13,7 +13,7 @@
     ; ssl_type: ssl or sm_ssl, default: ssl
     ssl_type = ssl
     ; directory the certificates located in, defaul: ./conf
-    ca_path=/home/limbo/TrustedConnectionSystem/conf
+    ca_path=./conf
     ; the ca certificate file
     ca_cert=ca.crt
     ; the node private key file

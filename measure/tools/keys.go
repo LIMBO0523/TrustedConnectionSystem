@@ -49,7 +49,7 @@ func generateKeys() *KeyPair {
 }
 
 func readPublicKey() ([]byte, error) {
-	filePath := "/home/limbo/test/publicKey"
+	filePath := "./myKeys/publicKey"
 	//filePath := "D:\\Work\\openHarmony\\privateKey"
 	data, err := os.ReadFile(filePath)
 	if err != nil {
@@ -60,7 +60,7 @@ func readPublicKey() ([]byte, error) {
 }
 
 func readPrivateKey() ([]byte, error) {
-	filePath := "/home/limbo/test/privateKey"
+	filePath := "./myKeys/privateKey"
 	//filePath := "D:\\Work\\openHarmony\\privateKey"
 	data, err := os.ReadFile(filePath)
 	if err != nil {
@@ -87,7 +87,7 @@ func GetOrGenerateKeys() *KeyPair {
 
 // SavePrivateKey 将私钥保存至本地
 func (pair *KeyPair) SavePrivateKey() error {
-	dir := "/home/limbo/test"
+	dir := "./myKeys"
 	//dir := "D:\\Work\\openHarmony"
 	filename := "privateKey"
 	filePath := filepath.Join(dir, filename)
@@ -110,7 +110,7 @@ func (pair *KeyPair) SavePrivateKey() error {
 }
 
 func (pair *KeyPair) SavePublicKey() error {
-	dir := "/home/limbo/test"
+	dir := "./myKeys"
 	//dir := "D:\\Work\\openHarmony"
 	filename := "publicKey"
 	filePath := filepath.Join(dir, filename)
