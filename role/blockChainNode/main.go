@@ -16,7 +16,7 @@ func WatchVerifyAndStoreHashes() {
 func main() {
 	go WatchVerifyAndStoreHashes()
 	r := router.BlockChainNodeRouter()
-	err := r.Run("8082")
+	err := r.Run(":8082")
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
