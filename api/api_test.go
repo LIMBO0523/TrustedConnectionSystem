@@ -122,3 +122,7 @@ func TestInitiateMeasurement(t *testing.T) {
 	//	fmt.Println(resp.Body)
 	//}
 }
+
+func TestVerifyCred(t *testing.T) {
+	VerifyCred(&gin.Context{})
+}

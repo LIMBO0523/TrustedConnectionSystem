@@ -40,6 +40,9 @@ func ValidatorRouter() *gin.Engine {
 	//	部署智能合约
 	r.GET("/deploycontract", api.DeployContract)
 
+	// 验证凭证
+	r.POST("/verifycredential", api.VerifyCred)
+
 	return r
 }
 

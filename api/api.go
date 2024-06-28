@@ -4,12 +4,15 @@ import (
 	"TrustedConnectionSystem/conf"
 	"TrustedConnectionSystem/measure"
 	"TrustedConnectionSystem/measure/tools"
+	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
 	"io"
 	"log"
 	"net/http"
+	url2 "net/url"
+	"strings"
 )
 
 func Pong(c *gin.Context) {
@@ -260,4 +263,129 @@ func DeployContract(c *gin.Context) {
 		"address": address,
 		"result":  true,
 	})
+}
+
+// CreateCred 创建凭证
+func CreateCred(c *gin.Context) {
+	type RequestPayload struct {
+		Issuer         string `json:"issuer" binding:"required"`
+		EncClaimBase64 string `json:"encClaimBase64" binding:"required"`
+	}
+
+	var payload RequestPayload
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	baseURL := "http://47.99.45.251:8081/createCred"
+	reqURL := fmt.Sprintf("%s?issuer=%s&encClaimBase64=%s", baseURL, payload.Issuer, payload.EncClaimBase64)
+
+	// 发送请求
+	req, err := http.NewRequest("GET", reqURL, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 处理响应
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}(resp.Body)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	str := string(body)
+
+	if strings.Contains(str, "凭证创建成功：") {
+		c.JSON(200, gin.H{
+			"message": "凭证创建成功!",
+			"result":  true,
+			"info":    strings.TrimPrefix(str, "凭证创建成功："),
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"message": "凭证创建失败！",
+			"result":  false,
+		})
+	}
+}
+
+func VerifyCred(c *gin.Context) {
+	type RequestPayload struct {
+		Verifier string `json:"verifier" binding:"required"`
+		Cred     string `json:"cred" binding:"required"`
+	}
+
+	var payload RequestPayload
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	baseURL := "http://47.99.45.251:8081/verCred"
+	//verifier := "did:oh:31383998833984402062316600669207642143769835764229575789412456341835444099888"
+	//cred := "{\"signature\":\"MEUCIA+cKOQba/V8zP1WTyzPbCR3Jv5ZMoar7Ho3FjKK7X8wAiEA6wmFXsVjxcQfhTmIAGIVeBLH0oSPoOVT5ie7+nMFi6E=\",\"created\":\"2024-06-28 17:33:46\",\"claim\":{\"uid\":\"did:oh:47509925847570615502971369446505424773057807182010381725448177760388419399203\",\"signature\":\"MEQCIBs/zFj2ZLaIKFqa9euEvEQp1ndJhkju62l1SX+Lhc9TAiBJZuXuxoTzTkdDzJUYnOKya2iCkBnPPi3dfdqH5CtARw==\",\"info\":\"{\\\"aaa\\\":\\\"bbb\\\",\\\"ccc\\\":\\\"ddd\\\"}\"},\"expiration\":\"2024-12-25 17:33:46\",\"holder\":\"did:oh:47509925847570615502971369446505424773057807182010381725448177760388419399203\",\"id\":\"72760885038633409383093884630339844557325749435723204435431507569012408218817\",\"issuer\":\"did:oh:17452426361413963799524767190772658718989282619900474222570575228661322565607\"}"
+	// 使用url包对cred参数进行转义
+
+	// 构建请求URL，确保参数位置不变
+	reqURL := fmt.Sprintf("%s?verifier=%s&cred=%s", baseURL, payload.Verifier, url2.QueryEscape(payload.Cred))
+
+	// 发送请求
+	req, err := http.NewRequest("GET", reqURL, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	//req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 处理响应
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}(resp.Body)
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	str := string(body)
+
+	if strings.Contains(str, "verCred Successful") {
+		c.JSON(200, gin.H{
+			"message": "验证成功!",
+			"result":  true,
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"message": "验证失败！",
+			"result":  false,
+		})
+	}
 }
