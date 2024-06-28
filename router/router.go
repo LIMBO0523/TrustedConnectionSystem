@@ -10,6 +10,13 @@ func ApplicantRouter() *gin.Engine {
 
 	r.GET("/ping", api.Pong)
 
+	// 生成公私钥对
+	r.GET("/generatekey", api.GenerateKey)
+	// 设置需要Hash的文件
+	r.PUT("/setfiles", api.SetFiles)
+	// 获取已设置的文件
+	r.GET("/getfiles", api.GetFiles)
+
 	// 上传公钥
 	r.PUT("/uploadpublickey", api.UploadPublicKey)
 	// 上传指纹(会把当前的指定文件的hash值作为指纹上传到智能合约)

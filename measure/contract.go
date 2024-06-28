@@ -137,7 +137,7 @@ func (ivc *IntergrityVerifyContract) CallGetHash(file string) ([32]byte, error) 
 	return hash, nil
 }
 
-func (ivc *IntergrityVerifyContract) CallGetAddressToPublicKey(address common.Address) ([]byte, error) {
+func (ivc *IntergrityVerifyContract) CallGetAddressToPublicKey() ([]byte, error) {
 	key, err := ivc.Session.GetAddressToPublicKey(ivc.DeviceAddress)
 	if err != nil {
 		log.Println("合约调用GetAddressToPublicKey失败: ", err)

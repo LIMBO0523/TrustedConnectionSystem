@@ -15,9 +15,9 @@ func main() {
 			3. 监听事件，获取验证结果
 		4. 监听事件，对度量签名进行验签，并将验签结果发送到区块链上
 	*/
-	router := router.ApplicantRouter()
+	r := router.ApplicantRouter()
 	//err := router.Run(":" + conf.GetPort())
-	err := router.Run(":8080")
+	err := r.Run(":8080")
 	if err != nil {
 		return
 	}

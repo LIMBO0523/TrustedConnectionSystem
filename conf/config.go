@@ -25,7 +25,7 @@ func init() {
 		return
 	}
 
-	err = json.Unmarshal([]byte(data), &config)
+	err = json.Unmarshal(data, &config)
 	if err != nil {
 		logrus.Errorln(" 解析配置文件失败: ", err)
 	}
@@ -57,8 +57,4 @@ func GetDeviceAddress() common.Address {
 
 func GetFilesAndVersion() ([]string, string) {
 	return config.Files, config.Version
-}
-
-func GetPort() string {
-	return config.Port
 }

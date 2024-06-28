@@ -17,6 +17,8 @@ func Pong(c *gin.Context) {
 		"message": "pong",
 	})
 }
+
+// GenerateKey 生成公私钥对
 func GenerateKey(c *gin.Context) {
 	if tools.GetKeysPair() == nil {
 		c.JSON(200, gin.H{
@@ -31,6 +33,7 @@ func GenerateKey(c *gin.Context) {
 	return
 }
 
+// SetFiles 设置需要Hash的文件
 func SetFiles(c *gin.Context) {
 	type RequestBody struct {
 		Files   []string `json:"files" binding:"required"`
@@ -50,6 +53,7 @@ func SetFiles(c *gin.Context) {
 	return
 }
 
+// GetFiles 获取已设置的文件
 func GetFiles(c *gin.Context) {
 	hasher := tools.GetHasher()
 	files, version, err := hasher.GetFiles()
@@ -188,7 +192,13 @@ func InitiateMeasurement(c *gin.Context) {
 	}
 
 	// 处理响应
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}(resp.Body)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

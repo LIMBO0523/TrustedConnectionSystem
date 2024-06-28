@@ -97,7 +97,12 @@ func (pair *KeyPair) SavePrivateKey() error {
 		return err
 	}
 
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatalln("无法关闭文件privateKey:", err)
+		}
+	}(file)
 
 	_, err = file.Write(pair.privateKey)
 	if err != nil {
@@ -120,7 +125,12 @@ func (pair *KeyPair) SavePublicKey() error {
 		return err
 	}
 
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatalln("无法关闭文件publicKey:", err)
+		}
+	}(file)
 
 	_, err = file.Write(pair.publicKey)
 	if err != nil {

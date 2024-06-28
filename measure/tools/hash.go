@@ -41,7 +41,7 @@ func (h *Hasher) SetFiles(files []string, version string) {
 // GetFiles 获取要进行哈希的文件名
 func (h *Hasher) GetFiles() (files []string, version string, err error) {
 	files = make([]string, 0)
-	for file, _ := range h.files {
+	for file := range h.files {
 		files = append(files, file)
 	}
 
@@ -52,7 +52,7 @@ func (h *Hasher) GetFiles() (files []string, version string, err error) {
 func (h *Hasher) HashFiles() map[string][]byte {
 	result := make(map[string][]byte)
 
-	for filePath, _ := range h.files {
+	for filePath := range h.files {
 		fileHash := h.HashFile(filePath)
 		split := strings.Split(filePath, "/")
 		filePath = split[len(split)-1] + "-" + h.systemVersion
@@ -68,7 +68,12 @@ func (h *Hasher) HashFile(filePath string) []byte {
 		log.Fatalln("无法打开文件:", err)
 		return nil
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatalln("无法关闭文件:", err)
+		}
+	}(file)
 
 	hash := sha256.New()
 

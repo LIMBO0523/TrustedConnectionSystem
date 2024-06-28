@@ -13,7 +13,7 @@ import (
 type Signer struct {
 }
 
-var signer *Signer = MakeSigner()
+var signer = MakeSigner()
 
 func GetSigner() *Signer {
 	return signer
