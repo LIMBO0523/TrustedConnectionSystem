@@ -169,8 +169,8 @@ func InitiateMeasurement(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	url := "http://127.0.0.1:8080/startmeasure"
-	//url := "http://" + request.IP + ":" + request.PORT + "/startmeasure"
+	//url := "http://127.0.0.1:8080/startmeasure"
+	url := "http://" + request.IP + ":" + request.PORT + "/startmeasure"
 
 	// 发送请求
 	req, err := http.NewRequest("POST", url, nil)
