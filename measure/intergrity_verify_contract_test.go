@@ -12,7 +12,10 @@ func TestIntergrityVerifyContract_CallSetAddressToPublicKey(t *testing.T) {
 
 	ivc := GetIntergrityVerify()
 
-	ivc.CallSetAddressToPublicKey(tools.GetKeysPair().GetPublicKey())
+	err := ivc.CallSetAddressToPublicKey(tools.GetKeysPair().GetPublicKey())
+	if err != nil {
+		return
+	}
 	key, _ := ivc.Session.GetAddressToPublicKey(ivc.DeviceAddress)
 
 	fmt.Println(string(key))
@@ -71,7 +74,7 @@ func TestIntergrityVerifyContract_CallGetHash(t *testing.T) {
 
 func TestIntergrityVerifyContract_CallGetAddressToPublicKey(t *testing.T) {
 	ivc := GetIntergrityVerify()
-	key, err := ivc.CallGetAddressToPublicKey(ivc.DeviceAddress)
+	key, err := ivc.CallGetAddressToPublicKey()
 	if err != nil {
 		log.Println(err)
 	}
