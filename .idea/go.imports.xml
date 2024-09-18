@@ -4,6 +4,7 @@
     <option name="excludedPackages">
       <array>
         <option value="encoding/json" />
+        <option value="github.com/FISCO-BCOS/go-sdk/v3/client" />
       </array>
     </option>
   </component>

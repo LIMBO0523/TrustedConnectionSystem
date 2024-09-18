@@ -248,7 +248,8 @@ func VerifyResult(c *gin.Context) {
 	})
 }
 
-func DeployContract(c *gin.Context) {
+// DeployIVCContract 部署IntergrityVerify智能合约
+func DeployIVCContract(c *gin.Context) {
 	ivc := measure.GetIntergrityVerify()
 	success, address := ivc.DeployIntegrityVerify()
 
@@ -388,4 +389,48 @@ func VerifyCred(c *gin.Context) {
 			"result":  false,
 		})
 	}
+}
+
+// DeployPSContract 部署PinStorage智能合约
+func DeployPSContract(c *gin.Context) {
+	ps := measure.GetPinStorage()
+	success, address := ps.DeployPinStorageContract()
+
+	if !success {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "部署失败",
+			"result":  false,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "部署成功",
+		"address": address,
+		"result":  true,
+	})
+}
+
+func GetPin(c *gin.Context) {
+	ps := measure.GetPinStorage()
+	pin := ps.CallGetPin()
+	c.JSON(200, gin.H{
+		"pin": pin,
+	})
+}
+
+func SetPin(c *gin.Context) {
+	type RequestPayload struct {
+		Pin string `json:"pin" binding:"required"`
+	}
+
+	var payload RequestPayload
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	ps := measure.GetPinStorage()
+	success := ps.CallSetPin(payload.Pin)
+
+	c.JSON(200, gin.H{
+		"result": success,
+	})
 }

@@ -29,7 +29,7 @@ var IntergrityVerify *IntergrityVerifyContract
 
 func init() {
 	conn := fisco.GetClient()
-	session := GetContractInstance(conn)
+	session := GetIVCInstance(conn)
 
 	IntergrityVerify = &IntergrityVerifyContract{
 		ContractAddress: conf.GetContractAddress(),
@@ -43,7 +43,7 @@ func GetIntergrityVerify() *IntergrityVerifyContract {
 	return IntergrityVerify
 }
 
-func GetContractInstance(client *client.Client) *contract.IntegrityVerifySession {
+func GetIVCInstance(client *client.Client) *contract.IntegrityVerifySession {
 	// 调用合约IntegrityVerify.sol中的verifyAndStoreHashes方法
 	address := conf.GetContractAddress()
 	instance, err := contract.NewIntegrityVerify(address, client)

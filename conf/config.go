@@ -14,6 +14,7 @@ type Config struct {
 	DeviceAddress   string   `json:"device_address"`
 	Files           []string `json:"files"`
 	Version         string   `json:"version"`
+	PinService      string   `json:"pin_service"`
 }
 
 var config = new(Config)
@@ -37,6 +38,16 @@ func GetPEMFILE() string {
 
 func GetContractAddress() common.Address {
 	fromString, err := common.NewMixedcaseAddressFromString(config.ContractAddress)
+	if err != nil {
+		logrus.Errorln(" 合约地址转换失败: ", err)
+	}
+
+	address := fromString.Address()
+	return address
+}
+
+func GetPinService() common.Address {
+	fromString, err := common.NewMixedcaseAddressFromString(config.PinService)
 	if err != nil {
 		logrus.Errorln(" 合约地址转换失败: ", err)
 	}

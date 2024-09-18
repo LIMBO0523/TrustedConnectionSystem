@@ -24,6 +24,9 @@ func ApplicantRouter() *gin.Engine {
 	// 开始度量
 	r.POST("/startmeasure", api.StartMeasure)
 
+	// 获取pin码
+	r.GET("/getpin", api.GetPin)
+
 	return r
 }
 
@@ -37,11 +40,20 @@ func ValidatorRouter() *gin.Engine {
 	// 查看验证结果
 	r.POST("/verifyresult", api.VerifyResult)
 
-	//	部署智能合约
-	r.GET("/deploycontract", api.DeployContract)
+	//	部署ivc智能合约
+	r.GET("/deployivccontract", api.DeployIVCContract)
+
+	// 部署ps智能合约
+	r.GET("/deploypscontract", api.DeployPSContract)
 
 	// 验证凭证
 	r.POST("/verifycredential", api.VerifyCred)
+
+	// 获取pin码
+	r.GET("/getpin", api.GetPin)
+
+	// 设置pin码
+	r.PUT("/setpin", api.SetPin)
 
 	return r
 }
@@ -51,7 +63,7 @@ func BlockChainNodeRouter() *gin.Engine {
 	r.GET("/ping", api.Pong)
 
 	//	部署智能合约
-	r.GET("/deploycontract", api.DeployContract)
+	r.GET("/deploycontract", api.DeployIVCContract)
 
 	return r
 }
