@@ -1,7 +1,7 @@
 package api
 
 import (
-	"TrustedConnectionSystem/conf"
+	"TrustedConnectionSystem/init"
 	"TrustedConnectionSystem/measure"
 	"TrustedConnectionSystem/measure/tools"
 	"fmt"
@@ -106,7 +106,7 @@ func StartMeasure(c *gin.Context) {
 	if !result {
 		c.JSON(200, gin.H{
 			"message": "所有设备都同意接入",
-			"address": conf.GetDeviceAddress(),
+			"address": init.GetDeviceAddress(),
 			"result":  true,
 		})
 		return
@@ -115,7 +115,7 @@ func StartMeasure(c *gin.Context) {
 	// 如果监听到事件，说明验证失败
 	c.JSON(200, gin.H{
 		"message": "存在设备不同意接入",
-		"address": conf.GetDeviceAddress(),
+		"address": init.GetDeviceAddress(),
 		"result":  false,
 	})
 	return

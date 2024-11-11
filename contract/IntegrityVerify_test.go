@@ -1,8 +1,8 @@
 package contract
 
 import (
-	"TrustedConnectionSystem/conf"
 	"TrustedConnectionSystem/fisco"
+	"TrustedConnectionSystem/init"
 	"TrustedConnectionSystem/measure/tools"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
@@ -11,7 +11,7 @@ import (
 )
 
 func TestIntegrityVerify(t *testing.T) {
-	conn, err := fisco.Conn(conf.GetPEMFILE())
+	conn, err := fisco.Conn(init.GetPEMFILE())
 	if err != nil {
 		logrus.Errorln(" 连接FISCO BCOS失败: ", err)
 	}

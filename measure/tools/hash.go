@@ -1,7 +1,7 @@
 package tools
 
 import (
-	"TrustedConnectionSystem/conf"
+	"TrustedConnectionSystem/init"
 	"crypto/sha256"
 	"io"
 	"log"
@@ -18,7 +18,7 @@ var hasher *Hasher
 
 func init() {
 	hasher = MakeHasher()
-	hasher.SetFiles(conf.GetFilesAndVersion())
+	hasher.SetFiles(init.GetFilesAndVersion())
 }
 
 func GetHasher() *Hasher {

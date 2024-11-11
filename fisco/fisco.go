@@ -1,7 +1,7 @@
 package fisco
 
 import (
-	"TrustedConnectionSystem/conf"
+	"TrustedConnectionSystem/init"
 	"context"
 	"github.com/FISCO-BCOS/go-sdk/v3/client"
 	"github.com/sirupsen/logrus"
@@ -11,7 +11,7 @@ import (
 var conn *client.Client
 
 func init() {
-	c, err := Conn(conf.GetPEMFILE())
+	c, err := Conn(init.GetPEMFILE())
 	if err != nil {
 		logrus.Errorln(" 连接FISCO BCOS失败: ", err)
 	}

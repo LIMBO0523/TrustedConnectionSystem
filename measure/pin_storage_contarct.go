@@ -1,9 +1,9 @@
 package measure
 
 import (
-	"TrustedConnectionSystem/conf"
 	"TrustedConnectionSystem/contract"
 	"TrustedConnectionSystem/fisco"
+	"TrustedConnectionSystem/init"
 	"github.com/FISCO-BCOS/go-sdk/v3/client"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/sirupsen/logrus"
@@ -28,8 +28,8 @@ func init() {
 	session := GetPSInstance(conn)
 
 	pinStorage = &PinStorage{
-		ContractAddress: conf.GetPinService(),
-		DeviceAddress:   conf.GetDeviceAddress(),
+		ContractAddress: init.GetPinService(),
+		DeviceAddress:   init.GetDeviceAddress(),
 		Session:         session,
 		Client:          conn,
 	}
@@ -37,7 +37,7 @@ func init() {
 
 func GetPSInstance(conn *client.Client) *contract.PinStorageSession {
 	// 调用合约IntegrityVerify.sol中的verifyAndStoreHashes方法
-	address := conf.GetPinService()
+	address := init.GetPinService()
 	instance, err := contract.NewPinStorage(address, conn)
 	if err != nil {
 		logrus.Errorln(" 获取智能合约实例PinStorage失败: ", err)

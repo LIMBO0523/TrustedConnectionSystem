@@ -1,7 +1,7 @@
 [common]
     ; if ssl connection is disabled, default: false
     ; disable_ssl = true
-    ; thread pool size for network message sending recving handing
+    ; thread pool size for network message sending receiving handing
     thread_pool_size = 8
     ; send message timeout(ms)
     message_timeout_ms = 10000
@@ -12,7 +12,7 @@
 [cert]
     ; ssl_type: ssl or sm_ssl, default: ssl
     ssl_type = ssl
-    ; directory the certificates located in, defaul: ./conf
+    ; directory the certificates located in, default: ./conf
     ca_path=./conf
     ; the ca certificate file
     ca_cert=ca.crt

@@ -1,9 +1,9 @@
 package measure
 
 import (
-	"TrustedConnectionSystem/conf"
 	"TrustedConnectionSystem/contract"
 	"TrustedConnectionSystem/fisco"
+	"TrustedConnectionSystem/init"
 	"TrustedConnectionSystem/measure/tools"
 	"context"
 	"fmt"
@@ -32,8 +32,8 @@ func init() {
 	session := GetIVCInstance(conn)
 
 	IntergrityVerify = &IntergrityVerifyContract{
-		ContractAddress: conf.GetContractAddress(),
-		DeviceAddress:   conf.GetDeviceAddress(),
+		ContractAddress: init.GetContractAddress(),
+		DeviceAddress:   init.GetDeviceAddress(),
 		Session:         session,
 		Client:          conn,
 	}
@@ -45,7 +45,7 @@ func GetIntergrityVerify() *IntergrityVerifyContract {
 
 func GetIVCInstance(client *client.Client) *contract.IntegrityVerifySession {
 	// 调用合约IntegrityVerify.sol中的verifyAndStoreHashes方法
-	address := conf.GetContractAddress()
+	address := init.GetContractAddress()
 	instance, err := contract.NewIntegrityVerify(address, client)
 	if err != nil {
 		logrus.Errorln(" 获取智能合约实例IntegrityVerify失败: ", err)

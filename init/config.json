@@ -1,0 +1,12 @@
+{
+  "port": "8080",
+  "pem_file": "/home/limbo/fisco/accounts/0xde91d6b23c0e412812e0e45362b0a71b0096b276.pem",
+  "contract_address": "0x31ed5233b81c79d5adddeef991f531a9bbc2ad01",
+  "device_address": "0xde91d6b23c0e412812e0e45362b0a71b0096b276",
+  "pin_service" : "0x6546c3571f17858ea45575e7c6457dad03e53dbb",
+  "files": [
+    "/home/limbo/TrustedConnectionSystem/contract/IntegrityVerify.go",
+    "/home/limbo/TrustedConnectionSystem/contract/IntegrityVerify.sol"
+  ],
+  "version": "1.0.0"
+}

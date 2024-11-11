@@ -1,4 +1,4 @@
-package conf
+package init
 
 import (
 	"github.com/ethereum/go-ethereum/common"
@@ -39,7 +39,7 @@ func GetPEMFILE() string {
 func GetContractAddress() common.Address {
 	fromString, err := common.NewMixedcaseAddressFromString(config.ContractAddress)
 	if err != nil {
-		logrus.Errorln(" 合约地址转换失败: ", err)
+		logrus.Infoln(" 合约地址转换失败: ", err)
 	}
 
 	address := fromString.Address()
